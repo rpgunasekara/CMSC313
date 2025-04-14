@@ -1,0 +1,11 @@
+HW7 Observations
+
+The C assembly share the same directives, but the C++ assembly has more directives like .align, which I found on Oracle adds bytes to make it essentially even. I assume it's beneficial for memory because of how it's organized (power of 2).
+
+addmats.s and addmatsSubr.s both use functions outside of main, but while addmatsSubr.s explicitly states the function name, addmats.s is a bit strange including letters and numbers around the name. It likely has something to do with this being a class.
+
+Those same two also utilize the leal instruction, which makes using addresses a lot easier. addmatsSimple.s uses a combination of other instructions with registers instead, which seems inefficient.
+
+All return DEFAULT_RETURN_VALUE by doing "movl $1, %eax" at the bottom of the code.
+
+All have a label for the loop condition. In the C code it's L2, C++ it's L3. The comparison made is i < ARRAY_SIZE, where ARRAY_SIZE is 5. I realized that in the assembly, it uses 4 instead, then the jle instruction to make it i <=4, which is the same as saying i < ARRAY_SIZE. addmats.cpp used jl, and that's because in the .cpp the constructor has the option to define the array size. Even though in the main function it uses ARRAY_SIZE, the code allows for other valid numbers, it just needs the functionality to ask for a user-chosen array size. I also noticed the loop condition goes under the loop, that way you check the condition afterwards and go back if necessary, kind of like a do while.
